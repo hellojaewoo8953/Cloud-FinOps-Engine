@@ -10,6 +10,9 @@ memory_info = psutil.virtual_memory()
 print(f"현재 CPU 사용량: {cpu_usage}%")
 print(f"현재 메모리 사용량: {memory_info.percent}%")
 '''
+
+
+
 import psutil
 
 print("--- 💡 Cloud-FinOps Engine: 자원 모니터링 및 방치 프로세스 감지 ---")
