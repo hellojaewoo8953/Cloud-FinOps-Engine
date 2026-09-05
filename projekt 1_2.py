@@ -1,9 +1,18 @@
+import os
 import psutil
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from email.header import Header
+from dotenv import load_dotenv
 import time
+
+# .env 파일에 있는 내용을 읽어옵니다.
+load_dotenv()
+
+# .env 파일에서 정보를 가져오고, 없으면 기본값을 씁니다.
+SMTP_HOST = os.getenv('SMTP_HOST', 'localhost')
+SMTP_PORT = int(os.getenv('SMTP_PORT', 1025))
 
 # --------------------------------------------------
 # 1. 가짜 메일 서버 테스트용 설정 (비밀번호 불필요!)
@@ -23,7 +32,7 @@ def send_email_alert(subject, body):
 
     try:
         # 내 컴퓨터(localhost)의 1025번 포트에 떠 있는 가짜 메일 서버로 연결
-        server = smtplib.SMTP('localhost', 1025)
+        server = smtplib.SMTP(SMTP_HOST, SMTP_PORT)
         server.sendmail(SENDER_EMAIL, RECEIVER_EMAIL, msg.as_string())
         server.quit()
         
