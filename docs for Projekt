@@ -42,7 +42,7 @@ for proc in psutil.process_iter(['pid', 'name', 'cpu_percent', 'memory_percent']
 29줄 * 파이썬 라이브러리에 있는 psutil 실행 *
 31줄 *processes 라는 빈 리스트를 만든다는 뜻*
 32줄 *for는 반복, in은 왼쪽의 상자와 오른쪽의 데이터를 연결해주는 다리, 
-    psutil.process 이 함수(현재 컴퓨터에서 실행중인 모든 프로세스를 하나씩 순회)를 반복해서 지정된 정보와 값을 proc이라는 변수에 넣어라*
+    psutil.process_iter이 함수(현재 컴퓨터에서 실행중인 모든 프로세스를 하나씩 순회)를 반복해서 지정된 정보와 값을 proc이라는 변수에 넣어라*
 34줄 try, except, pass는 에러방지, 예외처리해주는 3총사.
     try 일단해봐 , except 코드에 적은 경우에 예외 계속진행, pass 무시하고 조용히 다음경우로 넘어가.
 35줄 pinfo = proc.info 변수는 "구체적으로 내가 필요한 정보목록"을 설정하면, 
@@ -69,3 +69,34 @@ for p in top_processes:
 
 
 (projekt 1_2)
+import smtplib 
+이메일 전송을 위한 SMTP(Simple Mail Transfer Protocol) 프로토콜을 사용하기 위해 필요한 라이브러리입니다. 
+
+from email.mime.text import MIMEText / 
+from email.mime.multipart import MIMEMultipart / 
+from email.header import Header 
+단순히 글자만 보내는 게 아니라, '보내는 사람', '받는 사람', '제목', '본문'이 깔끔하게 격식을 갖춘 진짜 이메일 모양의 데이터 덩어리를 만들기 위해
+
+from dotenv import load_dotenv
+dotenv 라이브러리 : .env라는 별도 비밀 메모장에서 정보를 불러오기 위해
+load_dotenv() 
+프로젝트 폴더 안에 있는 .env 파일을 실제로 읽어서 실행 환경에 로드
+
+SMTP_HOST = os.getenv('SMTP_HOST', 'localhost')
+os.getenv(단어) : 운영체제 환경변수에서 단어를 찾아서 가져오라는 명령어. Get Environment Variable의 약자.
+SMTP_PORT = int(os.getenv('SMTP_PORT', 1025)) 은 .env파일에서 SMTP_PORT값을 정수로 변환하고, 없으면 1025. 
+
+projekt 1_2.py에서 25줄에서 MIMEMultipart()를 사용하여 여러부품(제목, 본문, 첨부파일 등)을 하나로 합치는 상자
+원래 이메일은 단순 텍스트만 보내는 게 아니라 제목, 받는 사람, 본문, 이미지, 파일 등 여러 요소가 섞여서(Multi-part) 만들어짐. 
+MIMEMultipart()를 실행하면 이 모든 것을 깔끔하게 포장할 수 있는 규격화된 빈 이메일 껍데기가 하나 만들어집니다.
+
+31줄에서 MIMEText(body, 'plain', 'utf-8')은 본문을 MIMEText()라는 규격화된 상자에 넣어주는 역할.
+바디는 본문내용, 'plain'은 단순 텍스트, 'utf-8'은 문자인코딩 방식.
+
+server = smtplib.SMTP(SMTP_HOST, SMTP_PORT) 는 서버접속시도. 지정된 호스트와 포트로 가짜 메일서버 접속.
+
+except Exception as e: 전송과정에서 에러가 발생하면 이를 잡아냄.
+
+idle_processes = [] 는 방치된 프로세스들을 담을 빈 리스트를 생성.
+
+76줄 메일을 본문을 쓸때, += 누적연산자를 사용해서, 나중에 특정문장만 수정가능하게 작성.
