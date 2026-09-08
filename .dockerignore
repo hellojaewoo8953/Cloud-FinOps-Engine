@@ -1,0 +1,14 @@
+# IDE 및 OS 설정
+.DS_Store
+.vscode/
+.idea/
+
+# 로컬 개발 및 바이너리 파일
+minikube*
+*.log
+__pycache__/
+*.pyc
+
+# 문서 및 불필요 파일
+README.md
+docs/
