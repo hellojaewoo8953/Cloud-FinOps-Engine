@@ -1,0 +1,24 @@
+.env
+
+# [기존에 있던 Python 관련 규칙들]
+__pycache__/
+*.pyc
+venv/
+
+# ==========================================
+# 새로 추가하는 Go 및 프로젝트 공통 보안 규칙
+# ==========================================
+.env
+.env.*
+!.env.example
+!.env.template
+
+*.pem
+*.key
+*.crt
+*.exe
+bin/
+/main
+.vscode/
+.DS_Store
+*.log
